@@ -2,8 +2,7 @@
 const navItems = [
   { title: "About", active: true },
   { title: "Resume", active: false },
-  // { title: "Portfolio", active: false },
-  // { title: "Blog", active: false },
+  { title: "Portfolio", active: false },
   { title: "Contact", active: false },
 ];
 ---
@@ -15,7 +14,9 @@ const navItems = [
         <li class="navbar-item">
           <button
             class={`navbar-link ${item.active ? "active" : ""}`}
+            aria-current={item.active ? "page" : "false"}
             data-nav-link
+            type="button"
           >
             {item.title}
           </button>
@@ -27,37 +28,26 @@ const navItems = [
 
 <script type="module">
   document.addEventListener("DOMContentLoaded", () => {
-    // page navigation variables
     const navigationLinks = document.querySelectorAll("[data-nav-link]");
     const pages = document.querySelectorAll("[data-page]");
 
-    console.log(pages)
+    if (navigationLinks.length === 0 || pages.length === 0) return;
 
-    // console.log("Nav Links: ", navigationLinks);
-    // console.log("Pages: ", pages);
-
-    if (navigationLinks.length === 0 || pages.length === 0) {
-      console.error("No navigation items or pages were found.");
-      return;
-    }
-
-    navigationLinks.forEach((link, _) => {
+    navigationLinks.forEach((link) => {
       link.addEventListener("click", function () {
+        const current = this.textContent.trim().toLowerCase();
+
         pages.forEach((page, pageIndex) => {
-          console.log(`${page.dataset.page} === ${this.innerHTML.toLowerCase()}`);
-          if (this.innerHTML.trim().toLowerCase() === page.dataset.page) {
-            if (!page.classList.contains("active")) {
-              page.classList.add("active");
-              navigationLinks[pageIndex].classList.add("active");
-              window.scrollTo(0, 0);
-            }
-          } else {
-            if (page.classList.contains("active")) {
-              page.classList.remove("active");
-              navigationLinks[pageIndex].classList.remove("active");
-            }
-          }
+          const isTarget = current === page.dataset.page;
+          page.classList.toggle("active", isTarget);
+          navigationLinks[pageIndex].classList.toggle("active", isTarget);
+          navigationLinks[pageIndex].setAttribute(
+            "aria-current",
+            isTarget ? "page" : "false"
+          );
         });
+
+        window.scrollTo(0, 0);
       });
     });
   });

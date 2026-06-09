@@ -3,13 +3,14 @@ interface Props {
   name: string;
   avatar: string;
   text: string;
+  date: string;
 }
 
-const { name, avatar, text } = Astro.props;
+const { name, avatar, text, date } = Astro.props;
 ---
 
 <li class="testimonials-item">
-  <div class="content-card" data-testimonials-item>
+  <div class="content-card" role="button" tabindex="0" data-testimonials-item>
     <figure class="testimonials-avatar-box">
       <img
         src={avatar || "/placeholder.svg"}
@@ -19,6 +20,13 @@ const { name, avatar, text } = Astro.props;
       />
     </figure>
     <h4 class="h4 testimonials-item-title" data-testimonials-title>{name}</h4>
+    <time class="sr-only" datetime={date}>
+      {new Date(date).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      })}
+    </time>
     <div class="testimonials-text" data-testimonials-text>
       <p>{text}</p>
     </div>

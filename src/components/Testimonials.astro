@@ -12,48 +12,48 @@ const testimonials = profile.testimonials
   </ul>
 </section>
 
-{
-  testimonials.map((testimonial) => (
-    <div class="modal-container" data-modal-container>
-      <div class="overlay" data-overlay />
-      <section class="testimonials-modal">
-        <button class="modal-close-btn" data-modal-close-btn>
-          <ion-icon name="close-outline" />
-        </button>
-        <div class="modal-img-wrapper">
-          <figure class="modal-avatar-box">
-            <img
-              src={testimonial.avatar}
-              alt={testimonial.name}
-              width="80"
-              data-modal-img
-            />
-          </figure>
-          <img src="/icon-quote.svg" alt="quote icon" />
-        </div>
-        <div class="modal-content">
-          <h4 class="h3 modal-title" data-modal-title>
-            {testimonial.name}
-          </h4>
-          <time datetime={testimonial.date}>
-            {new Date(testimonial.date).toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-            })}
-          </time>
-          <div data-modal-text>
-            <p>{testimonial.text}</p>
-          </div>
-        </div>
-      </section>
+<div class="modal-container" aria-hidden="true" data-modal-container>
+  <div class="overlay" data-overlay />
+  <section
+    class="testimonials-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="testimonial-modal-title"
+  >
+    <button class="modal-close-btn" type="button" aria-label="Close testimonial modal" data-modal-close-btn>
+      <ion-icon name="close-outline" />
+    </button>
+    <div class="modal-img-wrapper">
+      <figure class="modal-avatar-box">
+        <img
+          src={testimonials[0].avatar}
+          alt={testimonials[0].name}
+          width="80"
+          data-modal-img
+        />
+      </figure>
+      <img src="/icon-quote.svg" alt="quote icon" />
     </div>
-  ))
-}
+    <div class="modal-content">
+      <h4 id="testimonial-modal-title" class="h3 modal-title" data-modal-title>
+        {testimonials[0].name}
+      </h4>
+      <time datetime={testimonials[0].date} data-modal-date>
+        {new Date(testimonials[0].date).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        })}
+      </time>
+      <div data-modal-text>
+        <p>{testimonials[0].text}</p>
+      </div>
+    </div>
+  </section>
+</div>
 
 <script type="module">
   document.addEventListener("DOMContentLoaded", () => {
-    // testimonials variables
     const testimonialsItem = document.querySelectorAll(
       "[data-testimonials-item]"
     );
@@ -61,45 +61,69 @@ const testimonials = profile.testimonials
     const modalCloseBtn = document.querySelector("[data-modal-close-btn]");
     const overlay = document.querySelector("[data-overlay]");
 
-    // modal variable
     const modalImg = document.querySelector("[data-modal-img]");
     const modalTitle = document.querySelector("[data-modal-title]");
+    const modalDate = document.querySelector("[data-modal-date]");
     const modalText = document.querySelector("[data-modal-text]");
-
-    // modal toggle function
-    const testimonialsModalFunc = function () {
-      modalContainer.classList.toggle("active");
-      overlay.classList.toggle("active");
-    };
 
     if (
       testimonialsItem.length === 0 ||
-      modalContainer.length === 0 ||
-      modalCloseBtn.length === 0 ||
-      overlay.length === 0
+      !modalContainer ||
+      !modalCloseBtn ||
+      !overlay ||
+      !modalImg ||
+      !modalTitle ||
+      !modalDate ||
+      !modalText
     ) {
-      console.error(
-        "No testimonials items, modal container, modal close button, or overlay were found."
-      );
       return;
     }
 
-    testimonialsItem.forEach((item, _) => {
-      item.addEventListener("click", function () {
-        modalImg.src = this.querySelector("[data-testimonials-avatar]").src;
-        modalImg.alt = this.querySelector("[data-testimonials-avatar]").alt;
-        modalTitle.innerHTML = this.querySelector(
-          "[data-testimonials-title]"
-        ).innerHTML;
-        modalText.innerHTML = this.querySelector(
-          "[data-testimonials-text]"
-        ).innerHTML;
+    const testimonialsModalFunc = () => {
+      modalContainer.classList.toggle("active");
+      overlay.classList.toggle("active");
+      const isOpen = modalContainer.classList.contains("active");
+      modalContainer.setAttribute("aria-hidden", String(!isOpen));
+      if (isOpen) modalCloseBtn.focus();
+    };
 
+    const openFromItem = (item) => {
+      const avatar = item.querySelector("[data-testimonials-avatar]");
+      const title = item.querySelector("[data-testimonials-title]");
+      const text = item.querySelector("[data-testimonials-text]");
+      const date = item.querySelector("time");
+
+      if (!avatar || !title || !text) return;
+
+      modalImg.src = avatar.src;
+      modalImg.alt = avatar.alt;
+      modalTitle.textContent = title.textContent;
+      modalText.innerHTML = text.innerHTML;
+      if (date) {
+        modalDate.setAttribute("datetime", date.getAttribute("datetime") || "");
+        modalDate.textContent = date.textContent;
+      }
+      if (!modalContainer.classList.contains("active")) {
         testimonialsModalFunc();
+      }
+    };
+
+    testimonialsItem.forEach((item) => {
+      item.addEventListener("click", () => openFromItem(item));
+      item.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openFromItem(item);
+        }
       });
     });
 
     modalCloseBtn.addEventListener("click", testimonialsModalFunc);
     overlay.addEventListener("click", testimonialsModalFunc);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && modalContainer.classList.contains("active")) {
+        testimonialsModalFunc();
+      }
+    });
   });
 </script>

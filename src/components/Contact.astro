@@ -1,62 +1,97 @@
 ---
+const formId = "mdajwqjn";
 ---
-<article class="contact" data-page="contact">
+
+<article
+  id="contact"
+  class="contact"
+  data-page="contact"
+  aria-labelledby="contact-title"
+>
   <header>
-    <h2 class="h2 article-title">Contact</h2>
+    <h2 id="contact-title" class="h2 article-title">Contact</h2>
   </header>
 
-  <section class="mapbox" data-mapbox>
-    <figure>
-      <!-- <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d199666.5651251294!2d-121.58334177520186!3d38.56165006739519!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x809ac672b28397f9%3A0x921f6aaa74197fdb!2sSacramento%2C%20CA%2C%20USA!5e0!3m2!1sen!2sbd!4v1647608789441!5m2!1sen!2sbd"
-        width="400"
-        height="300"
-        loading="lazy"
-      >
-      </iframe> -->
-      <iframe
-        src="https://maps.google.com/maps?width=600&height=400&hl=en&q=Madrid&t=&z=11&ie=UTF8&iwloc=B&output=embed"
-        width="400"
-        height="400"
-        loading="lazy"></iframe>
-    </figure>
-  </section>
+  <div class="contact-body">
+    <section class="mapbox" data-mapbox aria-label="Location map">
+      <figure>
+        <iframe
+          src="https://maps.google.com/maps?width=600&height=400&hl=en&q=Madrid&t=&z=11&ie=UTF8&iwloc=B&output=embed"
+          title="Map showing Madrid, Spain"
+          width="400"
+          height="400"
+          loading="lazy"
+        ></iframe>
+      </figure>
+    </section>
 
-  <section class="contact-form">
-    <h3 class="h3 form-title">Contact Form</h3>
-
-    <form action="#" class="form" data-form>
-      <div class="input-wrapper">
-        <input
-          type="text"
-          name="fullname"
-          class="form-input"
-          placeholder="Full name"
-          required
-          data-form-input
-        />
-
-        <input
-          type="email"
-          name="email"
-          class="form-input"
-          placeholder="Email address"
-          required
-          data-form-input
-        />
+    <section class="contact-form">
+      <div class="form-header">
+        <h3 id="contact-form-title" class="h3 form-title">Send a message</h3>
+        <p class="form-lead">
+          Have a project in mind or want to connect? Drop me a line and I will get back to you.
+        </p>
       </div>
 
-      <textarea
-        name="message"
-        class="form-input"
-        placeholder="Your Message"
-        required
-        data-form-input></textarea>
+      <p data-fs-success class="form-status form-status-success" role="status" aria-live="polite"></p>
+      <p data-fs-error class="form-status form-status-error" role="alert" aria-live="assertive"></p>
 
-      <button class="form-btn" type="submit" disabled data-form-btn>
-        <ion-icon name="paper-plane"></ion-icon>
-        <span>Send Message</span>
-      </button>
-    </form>
-  </section>
+      <form id="contact-form" class="form" aria-labelledby="contact-form-title" novalidate>
+        <div class="input-wrapper">
+          <div class="form-field">
+            <label class="form-label" for="fullname">Full name</label>
+            <input
+              id="fullname"
+              type="text"
+              name="name"
+              class="form-input"
+              placeholder="John Doe"
+              autocomplete="name"
+              required
+              data-fs-field
+            />
+            <span data-fs-error="name" class="field-error" aria-live="polite"></span>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="email">Email address</label>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              class="form-input"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+              data-fs-field
+            />
+            <span data-fs-error="email" class="field-error" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="message">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            class="form-input"
+            placeholder="Tell me about your project or opportunity..."
+            required
+            data-fs-field
+          ></textarea>
+          <span data-fs-error="message" class="field-error" aria-live="polite"></span>
+        </div>
+
+        <button class="form-btn" type="submit" data-fs-submit-btn>
+          <ion-icon name="paper-plane"></ion-icon>
+          <span>Send Message</span>
+        </button>
+      </form>
+    </section>
+  </div>
 </article>
+
+<script>
+  import { initForm } from "@formspree/ajax";
+  initForm({ formElement: "#contact-form", formId: "mdajwqjn" });
+</script>

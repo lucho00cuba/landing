@@ -1,18 +1,22 @@
 ---
 import TimelineSection from '@components/TimelineSection.astro';
+import ExperienceSection from '@components/ExperienceSection.astro';
 import SkillsSection from '@components/SkillsSection.astro';
+import CertificationsSection from '@components/CertificationsSection.astro';
 import { profile } from '../config';
 
 const education = profile.education
 const experience = profile.experience
 const skills = profile.skills
+const certifications = profile.certifications
 ---
-<article class="resume" data-page="resume">
+<article id="resume" class="resume" data-page="resume" aria-labelledby="resume-title">
   <header>
-    <h2 class="h2 article-title">Resume</h2>
+    <h2 id="resume-title" class="h2 article-title">Resume</h2>
   </header>
 
   <TimelineSection title="Education" icon="book-outline" items={education} />
-  <TimelineSection title="Experience" icon="book-outline" items={experience} />
+  <ExperienceSection items={experience} />
   <SkillsSection skills={skills} />
+  <CertificationsSection certifications={certifications} />
 </article>

@@ -1,15 +1,14 @@
 ---
 import Service from "@components/Service.astro";
 import Testimonials from "@components/Testimonials.astro";
-// import Clients from "@components/Clients.astro";
 import { profile } from '../config';
 
 const services = profile.services;
 ---
 
-<article class="about active" data-page="about">
+<article id="about" class="about active" data-page="about" aria-labelledby="about-title">
   <header>
-    <h2 class="h2 article-title">About me</h2>
+    <h2 id="about-title" class="h2 article-title">About me</h2>
   </header>
 
   <section class="about-text">
@@ -26,17 +25,4 @@ const services = profile.services;
   </section>
 
   <Testimonials />
-  <!-- <Clients /> -->
 </article>
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const sidebar = document.querySelector("[data-sidebar]");
-    const sidebarBtn = document.querySelector("[data-sidebar-btn]");
-    if (sidebarBtn) {
-      sidebarBtn.addEventListener("click", function () {
-        sidebar.classList.toggle("active");
-      });
-    }
-  });
-</script>

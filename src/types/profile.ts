@@ -1,6 +1,7 @@
 export interface SocialLink {
   icon: string;
   link: string;
+  label: string;
 }
 
 export interface Contact {
@@ -20,6 +21,7 @@ export interface Project {
   title: string;
   category: string;
   image: string;
+  link?: string;
 }
 
 export interface Portfolio {
@@ -27,15 +29,32 @@ export interface Portfolio {
   projects: Project[];
 }
 
-interface ResumeItem {
+export interface TimelineDatePoint {
+  year: number;
+  month?: number;
+}
+
+export interface TimelineDateRange {
+  from: TimelineDatePoint;
+  to: TimelineDatePoint | 'present';
+}
+
+interface EducationItem {
   title: string;
-  date: string;
+  date: TimelineDateRange;
   description: string;
 }
 
-interface Skill {
-  name: string;
-  level: number;
+export interface ExperienceItem {
+  title: string;
+  company: string;
+  date: TimelineDateRange;
+  description: string;
+}
+
+interface SkillGroup {
+  category: string;
+  items: string[];
 }
 
 interface Testimonial {
@@ -45,18 +64,25 @@ interface Testimonial {
   date: string;
 }
 
+interface Certification {
+  title: string;
+  issuer: string;
+  date: string;
+  link?: string;
+}
+
 export interface Profile {
   name: string;
   avatar: string;
   job: string;
-  email: string;
   socials: SocialLink[];
   contacts: Contact[];
   services: Service[];
   bio: string[];
   portfolio: Portfolio;
-  education: ResumeItem[];
-  experience: ResumeItem[];
-  skills: Skill[];
+  education: EducationItem[];
+  experience: ExperienceItem[];
+  skills: SkillGroup[];
   testimonials: Testimonial[];
+  certifications: Certification[];
 }

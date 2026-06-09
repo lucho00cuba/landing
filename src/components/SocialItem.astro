@@ -2,13 +2,20 @@
 interface Props {
   icon: string;
   link: string;
+  label: string;
 }
 
-const { icon, link } = Astro.props;
+const { icon, link, label } = Astro.props;
 ---
 
 <li class="social-item">
-  <a href={link} class="social-link" target="_blank" rel="noopener noreferrer">
+  <a
+    href={link}
+    class="social-link"
+    aria-label={label}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
     <ion-icon name={icon}></ion-icon>
   </a>
 </li>

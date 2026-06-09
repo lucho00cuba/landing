@@ -1,0 +1,68 @@
+---
+import { groupExperienceByCompany } from '@lib/experience';
+import {
+  formatTimelineDateRange,
+  formatTimelineDuration,
+} from '@lib/timeline-date';
+import type { ExperienceItem } from '@types/profile';
+
+interface Props {
+  items: ExperienceItem[];
+}
+
+const groups = groupExperienceByCompany(Astro.props.items);
+---
+
+<section class="timeline experience">
+  <div class="title-wrapper">
+    <div class="icon-box">
+      <ion-icon name="briefcase-outline"></ion-icon>
+    </div>
+    <h3 class="h3">Experience</h3>
+  </div>
+  <ol class="timeline-list">
+    {groups.map(group => {
+      const companyRange = formatTimelineDateRange(group.dateRange);
+      const companyDuration = formatTimelineDuration(group.dateRange);
+      const hasMultipleRoles = group.roles.length > 1;
+
+      return (
+        <li class="timeline-item timeline-company-group">
+          <h4 class="h4 timeline-company-name">{group.company}</h4>
+          <span class="timeline-date">
+            {companyRange}
+            {companyDuration && (
+              <span class="timeline-duration"> · {companyDuration}</span>
+            )}
+          </span>
+          {hasMultipleRoles ? (
+            <ol class="timeline-roles">
+              {group.roles.map(role => {
+                const roleRange = formatTimelineDateRange(role.date);
+                const roleDuration = formatTimelineDuration(role.date);
+
+                return (
+                  <li class="timeline-role">
+                    <h5 class="h5 timeline-role-title">{role.title}</h5>
+                    <span class="timeline-date">
+                      {roleRange}
+                      {roleDuration && (
+                        <span class="timeline-duration"> · {roleDuration}</span>
+                      )}
+                    </span>
+                    <p class="timeline-text">{role.description}</p>
+                  </li>
+                );
+              })}
+            </ol>
+          ) : (
+            <>
+              <h5 class="h5 timeline-role-title">{group.roles[0].title}</h5>
+              <p class="timeline-text">{group.roles[0].description}</p>
+            </>
+          )}
+        </li>
+      );
+    })}
+  </ol>
+</section>

@@ -1,22 +1,27 @@
 ---
-import Layout from "@layouts/Layout.astro";
 import About from "@components/About.astro";
-import Resume from "@components/Resume.astro";
-import Portfolio from "@components/Portfolio.astro";
-import Blog from "@components/Blog.astro";
 import Contact from "@components/Contact.astro";
 import Navbar from "@components/Navbar.astro";
+import Portfolio from "@components/Portfolio.astro";
+import Resume from "@components/Resume.astro";
 import Sidebar from "@components/Sidebar.astro";
+import Layout from "@layouts/Layout.astro";
 ---
 
-<Layout title="JustMe">
+<Layout
+  title="Luis Octavio | Platform Engineer & Cloud Architect in Madrid"
+  description="Portfolio of Luis Octavio — Staff DevOps / Platform Engineer in Madrid. Kubernetes, cloud-native architecture, IaC, CI/CD, SRE, and backend engineering with Go, Python, and C#."
+  canonical="/"
+  ogImage="/my-avatar.png"
+  ogImageWidth={256}
+  ogImageHeight={256}
+>
   <Sidebar />
   <div class="main-content">
     <Navbar />
     <About />
     <Resume />
     <Portfolio />
-    <Blog />
     <Contact />
   </div>
 </Layout>

@@ -1,7 +1,10 @@
 ---
+import { formatTimelineDateRange } from '@lib/timeline-date';
+import type { TimelineDateRange } from '@types/profile';
+
 interface TimelineItem {
   title: string;
-  date: string;
+  date: TimelineDateRange;
   description: string;
 }
 
@@ -25,7 +28,7 @@ const { title, icon, items } = Astro.props;
     {items.map(item => (
       <li class="timeline-item">
         <h4 class="h4 timeline-item-title">{item.title}</h4>
-        <span>{item.date}</span>
+        <span class="timeline-date">{formatTimelineDateRange(item.date)}</span>
         <p class="timeline-text">{item.description}</p>
       </li>
     ))}
