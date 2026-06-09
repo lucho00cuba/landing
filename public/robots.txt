@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://luisoctavio.dev/sitemap-index.xml
+Sitemap: https://justme.ovh/sitemap-index.xml
